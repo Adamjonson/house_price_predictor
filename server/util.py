@@ -5,10 +5,10 @@ __locations = None
 __data_columns = None
 __model = None
 
-def get_estimated_price(address,area,room):
+def get_estimated_price(location,area,room):
     #loc_index = np.where(X.columns==address)[0][0]
     try:
-        loc_index = __data_columns.index(address.lower())
+        loc_index = __data_columns.index(location.lower())
     except:
         loc_index = -1
     x = np.zeros(len(__data_columns))
