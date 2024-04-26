@@ -1,12 +1,14 @@
 import json
 import pickle
 import numpy as np
+
 __locations = None
 __data_columns = None
 __model = None
 
-def get_estimated_price(location,area,room):
-    #loc_index = np.where(X.columns==address)[0][0]
+
+def get_estimated_price(location, area, room):
+    # loc_index = np.where(X.columns==address)[0][0]
     try:
         loc_index = __data_columns.index(location.lower())
     except:
@@ -17,12 +19,16 @@ def get_estimated_price(location,area,room):
     if loc_index >= 0:
         x[loc_index] = 1
     return round(__model.predict([x])[0], 2)
+
+
 def get_location_names():
+    load_saved_artifacts()
     return __locations
+
 
 def load_saved_artifacts():
     print("loading saved artifacts...start")
-    global  __data_columns
+    global __data_columns
     global __locations
 
     with open("./artifacts/columns.json", "r") as f:
@@ -32,10 +38,12 @@ def load_saved_artifacts():
     with open("./artifacts/housePrice_model.pickle", 'rb') as f:
         __model = pickle.load(f)
     print("loading the artifacts is done")
+
+
 if __name__ == '__main__':
     load_saved_artifacts()
     print(get_location_names())
-    print(get_estimated_price('Ahang',100, 2))
+    print(get_estimated_price('Ahang', 100, 2))
     print(get_estimated_price('Waterfall', 1000, 2))
-    print(get_estimated_price('Velenjak', 70, 2)) # other location
+    print(get_estimated_price('Velenjak', 70, 2))  # other location
     print(get_estimated_price('Abbasabad', 125, 4))  # other location

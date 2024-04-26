@@ -1,9 +1,12 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS  # Import the CORS module
 import util
-app = Flask(__name__)
 
+app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 @app.route("/get_location_names")
 def get_location_names():
+
     response = jsonify({
         'locations': util.get_location_names()
     })
@@ -12,9 +15,9 @@ def get_location_names():
 
 @app.route('/predict_home_price', methods=['POST'])
 def predict_home_price():
-    area = float(request.form['area'])
+    area = float(request.form['total_sqft'])
     location = request.form['location']
-    rooms = int(request.form['numb_of_rooms'])
+    rooms = int(request.form['bhk'])
 
     response = jsonify({
         'estimated_price': util.get_estimated_price(location,area,rooms)
